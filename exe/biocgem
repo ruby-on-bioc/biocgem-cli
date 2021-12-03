@@ -19,7 +19,7 @@ sample_config = {
   gem_constant_name: "OrgHsEgDb",
   gem_require_name: "org_hs_eg_db",
   bioc_package_sha256sum: "d22c7e6b13f89488d10bafbf7eacdb6b7aaa697c131ed73f601a502ac86ecd56",
-  bioc_version: 3.14
+  bioc_version: 3.14,
   bioc_package_version: 3.14.0
 }
 
