@@ -14,9 +14,9 @@ biocgem --bioc_package_name org.Mm.eg.db \
         --gem_icon :mouse: \
         --gem_constant_name OrgMmEgDb \
         --gem_require_name org_mm_eg_db \
-        --bioc_package_sha256sum 56f228448b50f1cea0fc15d6f61b1e94359ef885336034bf346693315390ad45
+        --bioc_package_sha256sum 56f228448b50f1cea0fc15d6f61b1e94359ef885336034bf346693315390ad45 \
         --bioc_version 3.14 \
-        --boic_package_version 3.14.0
+        --bioc_package_version 3.14.0
 ```
 
 Too many options... 
