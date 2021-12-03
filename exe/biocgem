@@ -39,7 +39,7 @@ target = config[:bioc_package_name]
 base = File.expand_path("../template/newgem", __dir__)
 
 Dir.mktmpdir do |tmpdir|
-  Dir["**/*", File::FNM_DOTMATCH, base: base].each do |f|
+  Dir.glob("**/*", File::FNM_DOTMATCH, base: base) do |f|
     src = File.expand_path(f, base)
     next unless File.file?(src)
 
