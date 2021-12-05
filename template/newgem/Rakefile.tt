@@ -1,38 +1,56 @@
 # frozen_string_literal: true
 
-require 'bundler/gem_tasks'
-require 'rake/testtask'
+require "bundler/gem_tasks"
+require "rake/testtask"
 
 Rake::TestTask.new(:test) do |t|
-  t.libs << 'test'
-  t.libs << 'lib'
-  t.test_files = FileList['test/**/*_test.rb']
+  t.libs << "test"
+  t.libs << "lib"
+  t.test_files = FileList["test/**/*_test.rb"]
 end
-
-task default: :test
-
-sqlite_database = '<%= config[:bioc_sqlite_database_name] %>'
 
 # ensure extdata files exist
 task :ensure_extdata do
-  [sqlite_database, 'DESCRIPTION'].each do |file|
+  [bioc_sqlite_database_name, "DESCRIPTION"].each do |file|
     raise "Missing file: #{file}" unless File.exist?("extdata/#{file}")
   end
 end
 
-Rake::Task['build'].enhance [:ensure_extdata]
+Rake::Task["build"].enhance [:ensure_extdata]
 
-def version
-  '<%= config[:bioc_package_version] %>'
+task default: :test
+
+def bioc_version
+  "<%= config[:bioc_version] %>"
+end
+
+def bioc_sqlite_database_name
+  "<%= config[:bioc_sqlite_database_name] %>"
+end
+
+def bioc_package_name
+  "<%= config[:bioc_package_name] %>"
+end
+
+def bioc_package_version
+  "<%= config[:bioc_package_version] %>"
+end
+
+def bioc_package_sha256sum
+  "<%= config[:bioc_package_sha256sum] %>"
+end
+
+def bioc_package_file_name
+  "#{bioc_package_name}_#{bioc_package_version}.tar.gz"
 end
 
 def download_annotation(database, src, file, sha256)
-  require 'fileutils'
-  require 'open-uri'
-  require 'tmpdir'
+  require "fileutils"
+  require "open-uri"
+  require "tmpdir"
 
-  url = "https://bioconductor.org/packages/<%= config[:bioc_version] %>/data/annotation/src/contrib/#{file}"
-  puts "Downloading #{file}..."
+  url = "https://bioconductor.org/packages/#{bioc_version}/data/annotation/src/contrib/#{file}"
+  puts "Downloading #{url}"
   contents = URI.open(url).read
 
   computed_sha256 = Digest::SHA256.hexdigest(contents)
@@ -40,9 +58,9 @@ def download_annotation(database, src, file, sha256)
 
   Dir.chdir(Dir.mktmpdir) do
     File.binwrite(file, contents)
-    command = 'tar xf'
+    command = "tar xf"
     system "#{command} #{file}"
-    dest = File.expand_path('extdata', __dir__)
+    dest = File.expand_path("extdata", __dir__)
 
     FileUtils.mkdir_p(dest)
 
@@ -50,18 +68,16 @@ def download_annotation(database, src, file, sha256)
     puts "Saved extdata/#{database}"
 
     FileUtils.cp("#{src}/DESCRIPTION", "#{dest}/DESCRIPTION")
-    puts 'Saved extdata/DESCRIPTION'
+    puts "Saved extdata/DESCRIPTION"
   end
 end
 
-# <%= config[:bioc_package_name] %>_<%= config[:bioc_package_version] %>.tar.gz
-# https://bioconductor.org/packages/<%= config[:bioc_version] %>/data/annotation/src/contrib/<%= config[:bioc_package_name] %>_<%= config[:bioc_package_version] %>.tar.gz
 namespace :extdata do
-  desc "download #{sqlite_database}"
+  desc "download #{bioc_sqlite_database_name}"
   task :download do
-    download_annotation('<%= config[:bioc_sqlite_database_name] %>',
-                        '<%= config[:bioc_package_name] %>',
-                        "<%= config[:bioc_package_name] %>_#{version}.tar.gz",
-                        '<%= config[:bioc_package_sha256sum] %>')
+    download_annotation(bioc_sqlite_database_name,
+                        bioc_package_name,
+                        bioc_package_file_name,
+                        bioc_package_sha256sum)
   end
 end
