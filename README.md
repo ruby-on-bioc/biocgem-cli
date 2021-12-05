@@ -1,8 +1,9 @@
 # BiocGem
 
+[![Gem Version](https://badge.fury.io/rb/biocgem.svg)](https://badge.fury.io/rb/biocgem)
 [![test](https://github.com/ruby-on-bioc/biocgem/actions/workflows/ci.yml/badge.svg)](https://github.com/ruby-on-bioc/biocgem/actions/workflows/ci.yml)
 
-Extract the database included in the Bioconductor annotation package and use it in the Ruby gem.
+Extract the database included in the [Bioconductor](https://bioconductor.org/) annotation package and use it in the Ruby gem.
 
 ## Installation
 
