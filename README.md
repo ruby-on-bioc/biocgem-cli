@@ -1,5 +1,9 @@
 # BiocGem
 
+[![test](https://github.com/ruby-on-bioc/biocgem/actions/workflows/ci.yml/badge.svg)](https://github.com/ruby-on-bioc/biocgem/actions/workflows/ci.yml)
+
+Extract the database included in the Bioconductor annotation package and use it in the Ruby gem.
+
 ## Installation
 
 ```sh
@@ -7,6 +11,19 @@ gem install biocgem
 ```
 
 ## Usage
+
+### 1.Generate your gem
+
+Short options
+
+```
+biocgem new \
+  -n org.Hs.eg.db \
+  -s org.Hs.eg.sqlite \
+  -v 3.14.0
+```
+
+Full options
 
 ```sh
 biocgem new --bioc_package_name org.Mm.eg.db \
@@ -19,21 +36,14 @@ biocgem new --bioc_package_name org.Mm.eg.db \
             --bioc_package_version 3.14.0
 ```
 
-```sh
-biocgem new \
-  --bioc_package_name TxDb.Hsapiens.UCSC.hg19.knownGene \
-  --bioc_sqlite_database_name TxDb.Hsapiens.UCSC.hg19.knownGene.sqlite \
-  --bioc_package_version 3.2.2
-```
+### 2. Install your gem
 
 ```
-biocgem new \
-  -n org.Hs.eg.db \
-  -s org.Hs.eg.sqlite \
-  -v 3.14.0
+cd org.Hs.eg.db
+rake extdata:download
+# rake test
+rake install
 ```
-
-Too many options... 
 
 ## Development
 
