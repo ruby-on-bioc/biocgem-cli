@@ -19,10 +19,10 @@ module BiocGem
       opt_parser = OptionParser.new do |parser|
         parser.banner = "Usage: biocgem new [options]"
 
-        parser.on("--bioc_package_name VAL", "e.g. org.Hs.eg.db") do |v|
+        parser.on("-n", "--bioc_package_name VAL", "e.g. org.Hs.eg.db") do |v|
           options[:bioc_package_name] = v
         end
-        parser.on("--bioc_sqlite_database_name VAL", "e.g. org.Hs.eg.sqlite") do |v|
+        parser.on("-s", "--bioc_sqlite_database_name VAL", "e.g. org.Hs.eg.sqlite") do |v|
           options[:bioc_sqlite_database_name] = v
         end
         parser.on("--gem_icon [VAL]", "e.g. :family:") do |v|
@@ -37,7 +37,7 @@ module BiocGem
         parser.on("--bioc_package_sha256sum [VAL]", "e.g. ") do |v|
           options[:bioc_package_sha256sum] = v
         end
-        parser.on("--bioc_version [VAL]", "e.g. 3.14") do |v|
+        parser.on("-v", "--bioc_version [VAL]", "e.g. 3.14") do |v|
           options[:bioc_version] = v
         end
         parser.on("--bioc_package_version VAL", "e.g. 3.14.0") do |v|
