@@ -1,4 +1,4 @@
-# biocgem
+# BiocGem
 
 ## Installation
 

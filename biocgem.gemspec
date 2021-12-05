@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative "lib/biocgem/version"
+require_relative "lib/bioc_gem/version"
 
 Gem::Specification.new do |spec|
   spec.name = "biocgem"
-  spec.version = Biocgem::VERSION
+  spec.version = BiocGem::VERSION
   spec.authors = ["kojix2"]
   spec.email = ["2xijok@gmail.com"]
 
