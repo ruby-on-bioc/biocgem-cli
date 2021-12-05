@@ -9,6 +9,7 @@ module BiocGem
 
     def initialize(argv = ARGV)
       @argv = argv
+      @parser = Parser.new
     end
 
     def run
@@ -18,14 +19,14 @@ module BiocGem
 
       target = config[:bioc_package_name]
 
-      base = File.expand_path("../template/newgem", __dir__)
+      base = File.expand_path("../../template/newgem", __dir__)
 
       Dir.mktmpdir do |tmpdir|
         Dir.glob("**/*", File::FNM_DOTMATCH, base: base) do |f|
           src = File.expand_path(f, base)
           next unless File.file?(src)
 
-          warn src
+          warn " - #{f}"
 
           str = File.read(src)
           erb = ERB.new(str)

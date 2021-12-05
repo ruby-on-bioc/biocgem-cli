@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require "biocgem"
+require "bioc_gem"
 
-BiocGem::Command.run(ARGV)
+BiocGem::Command.new.run

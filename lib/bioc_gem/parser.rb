@@ -11,8 +11,8 @@ module BiocGem
       @options = Options.new
     end
 
-    def parse(_args = ARGV)
-      @command = argv.shift&.to_sym
+    def parse_options(args = ARGV)
+      @command = args.shift&.to_sym
 
       return if @command != :new
 
@@ -32,10 +32,14 @@ module BiocGem
 
         sample_config.each do |key, value|
           parser.on("--#{key} VAL", "Set #{key} to VAL.", value.to_s) do |v|
-            @options[key] = v
+            options[key] = v
           end
         end
-      end.parse!
+      end
+
+      opt_parser.parse!(args)
+
+      options
     end
   end
 end
