@@ -15,7 +15,7 @@ module BiocGem
     def run
       parser.parse_options(@argv)
 
-      config = parser.options.to_h
+      pp config = parser.options.to_h
 
       target = config[:bioc_package_name]
 

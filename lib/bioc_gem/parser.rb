@@ -16,28 +16,45 @@ module BiocGem
 
       return if @command != :new
 
-      sample_config = {
-        bioc_package_name: "org.Hs.eg.db",
-        bioc_sqlite_database_name: "org.Hs.eg.sqlite",
-        gem_icon: "🧑‍🤝‍🧑",
-        gem_constant_name: "OrgHsEgDb",
-        gem_require_name: "org_hs_eg_db",
-        bioc_package_sha256sum: "d22c7e6b13f89488d10bafbf7eacdb6b7aaa697c131ed73f601a502ac86ecd56",
-        bioc_version: "3.14",
-        bioc_package_version: "3.14.0"
-      }
-
       opt_parser = OptionParser.new do |parser|
-        parser.banner = "Usage: biocgem [options]"
+        parser.banner = "Usage: biocgem new [options]"
 
-        sample_config.each do |key, value|
-          parser.on("--#{key} VAL", "Set #{key} to VAL.", value.to_s) do |v|
-            options[key] = v
-          end
+        parser.on("--bioc_package_name VAL", "e.g. org.Hs.eg.db") do |v|
+          options[:bioc_package_name] = v
+        end
+        parser.on("--bioc_sqlite_database_name VAL", "e.g. org.Hs.eg.sqlite") do |v|
+          options[:bioc_sqlite_database_name] = v
+        end
+        parser.on("--gem_icon [VAL]", "e.g. :family:") do |v|
+          options[:gem_icon] = v
+        end
+        parser.on("--gem_constant_name [VAL]", "e.g. OrgHsEgDb") do |v|
+          options[:gem_constant_name] = v
+        end
+        parser.on("--gem_require_name [VAL]", "e.g. org_hs_eg_db") do |v|
+          options[:gem_require_name] = v
+        end
+        parser.on("--bioc_package_sha256sum [VAL]", "e.g. ") do |v|
+          options[:bioc_package_sha256sum] = v
+        end
+        parser.on("--bioc_version [VAL]", "e.g. 3.14") do |v|
+          options[:bioc_version] = v
+        end
+        parser.on("--bioc_package_version VAL", "e.g. 3.14.0") do |v|
+          options[:bioc_package_version] = v
         end
       end
 
       opt_parser.parse!(args)
+
+      options.gem_icon = ":notes:" if options.gem_icon.nil?
+      if options.gem_constant_name.nil?
+        options.gem_constant_name = options.bioc_package_name.split(".").map(&:capitalize).join
+      end
+      if options.gem_require_name.nil?
+        options.gem_require_name = options.bioc_package_name.split(".").map(&:downcase).join("_")
+      end
+      options.bioc_version = "release" if options.bioc_version.nil?
 
       options
     end

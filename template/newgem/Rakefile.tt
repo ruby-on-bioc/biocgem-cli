@@ -37,7 +37,8 @@ def bioc_package_version
 end
 
 def bioc_package_sha256sum
-  "<%= config[:bioc_package_sha256sum] %>"
+  sha256 = "<%= config[:bioc_package_sha256sum] %>"
+  sha256 == "" ? nil : sha256
 end
 
 def bioc_package_file_name
@@ -53,8 +54,10 @@ def download_annotation(database, src, file, sha256)
   puts "Downloading #{url}"
   contents = URI.open(url).read
 
-  computed_sha256 = Digest::SHA256.hexdigest(contents)
-  raise "Bad hash: #{computed_sha256}" if computed_sha256 != sha256
+  if sha256
+    computed_sha256 = Digest::SHA256.hexdigest(contents)
+    raise "Bad hash: #{computed_sha256}" if computed_sha256 != sha256
+  end
 
   Dir.chdir(Dir.mktmpdir) do
     File.binwrite(file, contents)
