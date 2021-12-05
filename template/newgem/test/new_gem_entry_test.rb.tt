@@ -1,0 +1,9 @@
+# frozen_string_literal: true
+
+require 'test_helper'
+
+class <%= config[:gem_constant_name] %>Test < Test::Unit::TestCase
+  test '<%= config[:gem_constant_name] %> is ready' do
+    assert_equal(Sequel::SQLite::Database, <%= config[:gem_constant_name] %>.class)
+  end
+end

@@ -1,0 +1,33 @@
+# <%= config[:bioc_package_name] %>
+
+[![build](https://github.com/ruby-on-bioc/<%= config[:bioc_package_name] %>/actions/workflows/ci.yml/badge.svg)](https://github.com/ruby-on-bioc/<%= config[:bioc_package_name] %>/actions/workflows/ci.yml)
+
+<%= config[:gem_icon] %> [<%= config[:bioc_package_name] %>](https://bioconductor.org/packages/<%= config[:bioc_package_name] %>/) - for Ruby
+
+## Installation
+
+```
+git clone https://github.com/ruby-on-bioc/<%= config[:bioc_package_name] %>
+cd <%= config[:bioc_package_name] %>
+rake extdata:download
+rake install
+```
+
+## Usage
+
+```ruby
+require '<%= config[:gem_require_name] %>'
+
+<%= config[:gem_constant_name] %>.class # Sequel::SQLite::Database
+<%= config[:gem_constant_name] %>.tables
+```
+
+See [Sequel](https://github.com/jeremyevans/sequel) for more details.
+
+## Development
+
+With all due respect to the R language and Bioconductor maintainers...
+
+## Contributing
+
+Bug reports and pull requests are welcome on GitHub at https://github.com/ruby-on-bioc/<%= config[:gem_constant_name] %>.

@@ -1,0 +1,67 @@
+# frozen_string_literal: true
+
+require 'bundler/gem_tasks'
+require 'rake/testtask'
+
+Rake::TestTask.new(:test) do |t|
+  t.libs << 'test'
+  t.libs << 'lib'
+  t.test_files = FileList['test/**/*_test.rb']
+end
+
+task default: :test
+
+sqlite_database = '<%= config[:bioc_sqlite_database_name] %>'
+
+# ensure extdata files exist
+task :ensure_extdata do
+  [sqlite_database, 'DESCRIPTION'].each do |file|
+    raise "Missing file: #{file}" unless File.exist?("extdata/#{file}")
+  end
+end
+
+Rake::Task['build'].enhance [:ensure_extdata]
+
+def version
+  '<%= config[:bioc_package_version] %>'
+end
+
+def download_annotation(database, src, file, sha256)
+  require 'fileutils'
+  require 'open-uri'
+  require 'tmpdir'
+
+  url = "https://bioconductor.org/packages/<%= config[:bioc_version] %>/data/annotation/src/contrib/#{file}"
+  puts "Downloading #{file}..."
+  contents = URI.open(url).read
+
+  computed_sha256 = Digest::SHA256.hexdigest(contents)
+  raise "Bad hash: #{computed_sha256}" if computed_sha256 != sha256
+
+  Dir.chdir(Dir.mktmpdir) do
+    File.binwrite(file, contents)
+    command = 'tar xf'
+    system "#{command} #{file}"
+    dest = File.expand_path('extdata', __dir__)
+
+    FileUtils.mkdir_p(dest)
+
+    FileUtils.cp("#{src}/inst/extdata/#{database}", "#{dest}/#{database}")
+    puts "Saved extdata/#{database}"
+
+    FileUtils.cp("#{src}/DESCRIPTION", "#{dest}/DESCRIPTION")
+    puts 'Saved extdata/DESCRIPTION'
+  end
+end
+
+# <%= config[:bioc_package_name] %>_<%= config[:bioc_package_version] %>.tar.gz
+# https://bioconductor.org/packages/<%= config[:bioc_version] %>/data/annotation/src/contrib/<%= config[:bioc_package_name] %>_<%= config[:bioc_package_version] %>.tar.gz
+namespace :extdata do
+  desc "download #{sqlite_database}"
+  task :download do
+    download_annotation('<%= config[:bioc_sqlite_database_name] %>',
+                        '<%= config[:bioc_package_name] %>',
+                        "<%= config[:bioc_package_name] %>_#{version}.tar.gz",
+                        '<%= config[:bioc_package_sha256sum] %>')
+  end
+end
