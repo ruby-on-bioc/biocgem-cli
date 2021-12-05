@@ -16,7 +16,7 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir.glob(["*.{md,txt}", "{lib,exe,template}/**/*"], File::FNM_DOTMATCH)
   spec.bindir = "exe"
-  spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
+  spec.executables = ["biocgem"]
   spec.require_paths = ["lib"]
 
   # spec.add_dependency "example-gem", "~> 1.0"
