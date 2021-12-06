@@ -5,17 +5,24 @@ module BiocGem
   class Parser
     attr_reader :command, :options
 
-    def initialize
+    def initialize(args = nil)
       @comand = nil
 
       @options = Options.new
+      parse_options(args) if args
     end
 
-    def parse_options(args = ARGV)
+    def parse!(args = ARGV)
       @command = args.shift&.to_sym
+      if [:new].include?(command)
+        public_send("parse_options_#{command}", args)
+      else
+        warn "Unknown command #{command}"
+        nil
+      end
+    end
 
-      return if @command != :new
-
+    def parse_options_new(args)
       opt_parser = OptionParser.new do |parser|
         parser.banner = "Usage: biocgem new [options]"
 
@@ -47,14 +54,15 @@ module BiocGem
 
       opt_parser.parse!(args)
 
-      options.gem_icon = ":notes:" if options.gem_icon.nil?
-      if options.gem_constant_name.nil?
-        options.gem_constant_name = options.bioc_package_name.split(".").map(&:capitalize).join
-      end
-      if options.gem_require_name.nil?
-        options.gem_require_name = options.bioc_package_name.split(".").map(&:downcase).join("_")
-      end
-      options.bioc_version = "release" if options.bioc_version.nil?
+      options.gem_icon ||= ":notes:"
+      options.gem_constant_name ||= \
+        options.bioc_package_name
+               .split(".").map(&:capitalize).join
+      options.gem_require_name.nil?
+      options.gem_require_name ||= \
+        options.bioc_package_name
+               .split(".").map(&:downcase).join("_")
+      options.bioc_version ||= "release"
 
       options
     end

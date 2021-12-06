@@ -8,13 +8,20 @@ module BiocGem
     attr_accessor :parser
 
     def initialize(argv = ARGV)
-      @argv = argv
+      @argv = argv.clone
       @parser = Parser.new
     end
 
     def run
-      parser.parse_options(@argv)
+      parser.parse!(@argv)
 
+      command = parser.command
+      options = parser.options
+
+      public_send("run_#{command}", options) if [:new].include?(command)
+    end
+
+    def run_new(options)
       pp config = parser.options.to_h
 
       target = config[:bioc_package_name]
