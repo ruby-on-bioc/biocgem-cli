@@ -37,10 +37,10 @@ module BiocGem
         parser.on("--bioc_package_sha256sum [VAL]", "e.g. ") do |v|
           options[:bioc_package_sha256sum] = v
         end
-        parser.on("-v", "--bioc_version [VAL]", "e.g. 3.14") do |v|
+        parser.on("--bioc_version [VAL]", "e.g. 3.14") do |v|
           options[:bioc_version] = v
         end
-        parser.on("--bioc_package_version VAL", "e.g. 3.14.0") do |v|
+        parser.on("-v", "--bioc_package_version VAL", "e.g. 3.14.0") do |v|
           options[:bioc_package_version] = v
         end
       end
