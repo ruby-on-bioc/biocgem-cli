@@ -48,6 +48,9 @@ def bioc_package_file_name
   "#{bioc_package_name}_#{bioc_package_version}.tar.gz"
 end
 
+def gem_require_name
+  "<%= config[:gem_require_name] %>"
+end
 
 def download_annotation(src, database, file, md5sum, sha256)
   require "fileutils"
@@ -68,6 +71,7 @@ def download_annotation(src, database, file, md5sum, sha256)
     raise "SHA256 checksum mismatch for #{url}" unless sha256 == computed_sha256
   end
 
+
   Dir.chdir(Dir.mktmpdir) do
     File.binwrite(file, contents)
     command = "tar xf"
@@ -75,6 +79,18 @@ def download_annotation(src, database, file, md5sum, sha256)
     dest = File.expand_path("extdata", __dir__)
 
     FileUtils.mkdir_p(dest)
+
+    if database == ""
+      databases = Dir.glob("#{src}/inst/extdata/*.sqlite")
+      raise "No database found in #{src}/inst/extdata" if databases.empty?
+      raise "Multiple databases found in #{src}/inst/extdata" if databases.size > 1
+
+      database = File.basename(databases.first)
+      require_path = File.expand_path("lib/#{gem_require_name}.rb", __dir__)
+      str = File.read(require_path)
+                .sub!("*", File.basename(database, ".sqlite"))
+      File.write(require_path, str)
+    end
 
     FileUtils.cp("#{src}/inst/extdata/#{database}", "#{dest}/#{database}")
     puts "Saved extdata/#{database}"
@@ -87,8 +103,8 @@ end
 namespace :extdata do
   desc "download #{bioc_sqlite_database_name}"
   task :download do
-    download_annotation(bioc_sqlite_database_name,
-                        bioc_package_name,
+    download_annotation(bioc_package_name,
+                        bioc_sqlite_database_name,
                         bioc_package_file_name,
                         bioc_package_md5sum,
                         bioc_package_sha256sum)

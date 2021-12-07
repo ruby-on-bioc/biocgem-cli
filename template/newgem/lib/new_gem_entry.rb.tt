@@ -2,6 +2,6 @@
 
 require 'sequel'
 <%= config[:gem_constant_name] %> = Sequel.sqlite(
-  File.expand_path('../extdata/<%= config[:bioc_sqlite_database_name] %>', __dir__),
+  File.expand_path('../extdata/<%= config[:bioc_sqlite_database_name] || "*.sqlite" %>', __dir__),
   readonly: true
 )
