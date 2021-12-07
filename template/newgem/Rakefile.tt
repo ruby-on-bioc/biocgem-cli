@@ -36,16 +36,20 @@ def bioc_package_version
   "<%= config[:bioc_package_version] %>"
 end
 
+def bioc_package_md5sum
+  "<%= config[:bioc_package_md5sum] %>"
+end
+
 def bioc_package_sha256sum
-  sha256 = "<%= config[:bioc_package_sha256sum] %>"
-  sha256 == "" ? nil : sha256
+  "<%= config[:bioc_package_sha256sum] %>"
 end
 
 def bioc_package_file_name
   "#{bioc_package_name}_#{bioc_package_version}.tar.gz"
 end
 
-def download_annotation(database, src, file, sha256)
+
+def download_annotation(src, database, file, md5sum, sha256)
   require "fileutils"
   require "open-uri"
   require "tmpdir"
@@ -54,9 +58,14 @@ def download_annotation(database, src, file, sha256)
   puts "Downloading #{url}"
   contents = URI.open(url).read
 
-  if sha256
+  unless md5sum == ""
+    computed_md5sum = Digest::MD5.hexdigest(contents)
+    raise "MD5 checksum mismatch for #{url}" unless md5sum == computed_md5sum
+  end
+
+  unless sha256 == ""
     computed_sha256 = Digest::SHA256.hexdigest(contents)
-    raise "Bad hash: #{computed_sha256}" if computed_sha256 != sha256
+    raise "SHA256 checksum mismatch for #{url}" unless sha256 == computed_sha256
   end
 
   Dir.chdir(Dir.mktmpdir) do
@@ -81,6 +90,7 @@ namespace :extdata do
     download_annotation(bioc_sqlite_database_name,
                         bioc_package_name,
                         bioc_package_file_name,
+                        bioc_package_md5sum,
                         bioc_package_sha256sum)
   end
 end

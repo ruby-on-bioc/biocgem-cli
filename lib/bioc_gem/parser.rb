@@ -41,7 +41,10 @@ module BiocGem
         parser.on("--gem_require_name [VAL]", "e.g. org_hs_eg_db") do |v|
           options[:gem_require_name] = v
         end
-        parser.on("--bioc_package_sha256sum [VAL]", "e.g. ") do |v|
+        parser.on("-m", "--bioc_package_md5sum [VAL]", "check md5sum") do |v|
+          options[:bioc_package_md5sum] = v
+        end
+        parser.on("--bioc_package_sha256sum [VAL]", "check sha256sum") do |v|
           options[:bioc_package_sha256sum] = v
         end
         parser.on("--bioc_version [VAL]", "e.g. 3.14") do |v|
