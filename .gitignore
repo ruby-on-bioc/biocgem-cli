@@ -7,4 +7,5 @@
 /spec/reports/
 /tmp/
 /vendor/
+/bioc/packages/
 *.lock

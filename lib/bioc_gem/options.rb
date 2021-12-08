@@ -1,5 +1,6 @@
 module BiocGem
   Options = Struct.new(
+    :output_directory,
     :bioc_package_name,
     :bioc_sqlite_database_name,
     :gem_icon,

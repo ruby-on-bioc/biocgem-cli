@@ -26,32 +26,35 @@ module BiocGem
       opt_parser = OptionParser.new do |parser|
         parser.banner = "Usage: biocgem new [options]"
 
-        parser.on("-n", "--bioc_package_name VAL", "e.g. org.Hs.eg.db") do |v|
-          options[:bioc_package_name] = v
+        parser.on("-o", "--output [DIR]", "Output directory") do |dir|
+          options.output_directory = dir
         end
-        parser.on("-s", "--bioc_sqlite_database_name VAL", "e.g. org.Hs.eg.sqlite") do |v|
-          options[:bioc_sqlite_database_name] = v
+        parser.on("-n", "--bioc_package_name VAL", "e.g. org.Hs.eg.db") do |n|
+          options.bioc_package_name = n
         end
-        parser.on("--gem_icon [VAL]", "e.g. :family:") do |v|
-          options[:gem_icon] = v
+        parser.on("-s", "--bioc_sqlite_database_name VAL", "e.g. org.Hs.eg.sqlite") do |db|
+          options.bioc_sqlite_database_name = db
         end
-        parser.on("--gem_constant_name [VAL]", "e.g. OrgHsEgDb") do |v|
-          options[:gem_constant_name] = v
+        parser.on("--gem_icon [VAL]", "e.g. :family:") do |icon|
+          options.gem_icon = icon
         end
-        parser.on("--gem_require_name [VAL]", "e.g. org_hs_eg_db") do |v|
-          options[:gem_require_name] = v
+        parser.on("--gem_constant_name [VAL]", "e.g. OrgHsEgDb") do |c|
+          options.gem_constant_name = c
         end
-        parser.on("-m", "--bioc_package_md5sum [VAL]", "check md5sum") do |v|
-          options[:bioc_package_md5sum] = v
+        parser.on("--gem_require_name [VAL]", "e.g. org_hs_eg_db") do |rname|
+          options.gem_require_name = rname
         end
-        parser.on("--bioc_package_sha256sum [VAL]", "check sha256sum") do |v|
-          options[:bioc_package_sha256sum] = v
+        parser.on("-m", "--bioc_package_md5sum [VAL]", "check md5sum") do |md5|
+          options.bioc_package_md5sum = md5
         end
-        parser.on("--bioc_version [VAL]", "e.g. 3.14") do |v|
-          options[:bioc_version] = v
+        parser.on("--bioc_package_sha256sum [VAL]", "check sha256sum") do |sha256|
+          options.bioc_package_sha256sum = sha256
+        end
+        parser.on("--bioc_version [VAL]", "e.g. 3.14") do |bv|
+          options.bioc_version = bv
         end
         parser.on("-v", "--bioc_package_version VAL", "e.g. 3.14.0") do |v|
-          options[:bioc_package_version] = v
+          options.bioc_package_version = v
         end
       end
 

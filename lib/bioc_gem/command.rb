@@ -22,9 +22,12 @@ module BiocGem
     end
 
     def run_new(options)
-      pp config = parser.options.to_h
+      config = parser.options
+      require_name     = config.gem_require_name
+      package_name     = config.bioc_package_name
+      output_directory = config.output_directory
 
-      target = config[:bioc_package_name]
+      target = File.join(output_directory, package_name)
 
       base = File.expand_path("../../template/newgem", __dir__)
 
@@ -33,21 +36,21 @@ module BiocGem
           src = File.expand_path(f, base)
           next unless File.file?(src)
 
-          warn " - #{f}"
-
           str = File.read(src)
           erb = ERB.new(str)
           str = erb.result(binding)
 
           trg = File.expand_path(f, tmpdir)
           fname = File.basename(trg, ".tt")
-          fname.gsub!("new_gem_entry", config[:gem_require_name])
+          fname.gsub!("new_gem_entry", config.gem_require_name)
           dirname = File.dirname(trg)
           FileUtils.mkdir_p(dirname)
           File.write(File.join(dirname, fname), str)
         end
         FileUtils.cp_r(tmpdir, target)
       end
+
+      warn "Created #{target}"
     end
   end
 end
