@@ -1,4 +1,5 @@
 1. Edit `packages.txt` if you want.
 2. Use `devtools::install_github("seandavi/BiocPkgTools")` to install the latest `BiocPkgTools`
-3. Generate ruby-bioc gems: `ruby generate.rb`
-4. Run tests: `ruby run_tests.rb`
+3. Check your `BiocManager::version()`. Update to the latest version. `BiocManager::install(version = "3.14")`
+4. Generate ruby-bioc gems: `ruby generate.rb`
+5. Run tests: `ruby run_tests.rb`
