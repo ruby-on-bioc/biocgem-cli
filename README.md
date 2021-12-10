@@ -3,7 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/biocgem.svg)](https://badge.fury.io/rb/biocgem)
 [![test](https://github.com/ruby-on-bioc/biocgem/actions/workflows/ci.yml/badge.svg)](https://github.com/ruby-on-bioc/biocgem/actions/workflows/ci.yml)
 
-Extract the database included in the [Bioconductor](https://bioconductor.org/) annotation package and use it in the Ruby gem.
+biocgem is a command line tool to extract the databases included in the [Bioconductor](https://bioconductor.org/) annotation [packages](https://bioconductor.org/packages/release/BiocViews.html#___AnnotationData) and use them with Ruby gems. Sqlite and 2bit formats are supported. 
 
 ## Installation
 
@@ -15,8 +15,6 @@ gem install biocgem
 
 ### 1.Generate your gem
 
-Short options
-
 ```
 biocgem new \
   -n org.Hs.eg.db \
@@ -24,17 +22,21 @@ biocgem new \
   -v 3.14.0
 ```
 
+When executed, a directory just like the repository in the following link will be created.
+* https://github.com/ruby-on-bioc/org.Hs.eg.db
+
 Full options
 
 ```sh
-biocgem new --bioc_package_name org.Mm.eg.db \
-            --bioc_sqlite_database_name org.Mm.eg.sqlite \
-            --gem_icon :mouse: \
-            --gem_constant_name OrgMmEgDb \
-            --gem_require_name org_mm_eg_db \
-            --bioc_package_sha256sum 56f228448b50f1cea0fc15d6f61b1e94359ef885336034bf346693315390ad45 \
-            --bioc_version 3.14 \
-            --bioc_package_version 3.14.0
+biocgem new \
+  --bioc_package_name org.Mm.eg.db \
+  --bioc_sqlite_database_name org.Mm.eg.sqlite \
+  --gem_icon :mouse: \
+  --gem_constant_name OrgMmEgDb \
+  --gem_require_name org_mm_eg_db \
+  --bioc_package_sha256sum 56f228448b50f1cea0fc15d6f61b1e94359ef885336034bf346693315390ad45 \
+  --bioc_version 3.14 \
+  --bioc_package_version 3.14.0
 ```
 
 ### 2. Install your gem
@@ -46,9 +48,54 @@ rake extdata:download
 rake install
 ```
 
+### 3. Usage
+
+[Sequel](https://github.com/jeremyevans/sequel) is used to access Sqlite files from Ruby, see the org.Hs.eg.db example.
+
+* https://github.com/ruby-on-bioc/org.Hs.eg.db
+
+```ruby
+require 'org_hs_eg_db'
+
+DB = OrgHsEgDb
+
+DB.class  # Sequel::SQLite::Database
+DB.tables # List of tables
+
+DB[:alias].first
+ # => {:_id=>1, :alias_symbol=>"A1B"}
+
+DB[:alias].take(10)
+DB[:alias].where(alias_symbol: "HBA1").all
+ # => [{:_id=>2473, :alias_symbol=>"HBA1"}]
+
+DB[:alias].join(:gene_info, _id: :_id).where(alias_symbol: "HBA1").first
+ # {:_id=>2473,
+ # :alias_symbol=>"HBA1",
+ # :gene_name=>"hemoglobin subunit alpha 1",
+ # :symbol=>"HBA1"}
+
+DB[:alias].join(:genes, _id: :_id).where(alias_symbol: "HBA1").all
+ # => [{:_id=>2473, :alias_symbol=>"HBA1", :gene_id=>"3039"}]
+```
+
+```ruby
+ensembl_ids = %w(ENSG00000150676 ENSG00000099308 ENSG00000142676
+                 ENSG00000180776 ENSG00000108848 ENSG00000277370)
+                   
+DB[:ensembl].join(:genes, _id: :_id).where(ensembl_id: ensembl_ids).select_map(:gene_id)
+# => 
+# ["6135", "23031", "26800", "51747", "220047", "253832"]
+```
+
+### 4. Generate multiple gems
+
+How to automatically generate multiple Ruby gems from a list of bioconductor package names?
+* https://github.com/ruby-on-bioc/bioc-gems
+
 ## Development
 
-With all due respect to the R language and Bioconductor maintainers...
+Ruby on Bioc is a small project and focuses on sustainability rather than development.
 
 ## Contributing
 
