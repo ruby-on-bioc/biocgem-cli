@@ -101,6 +101,10 @@ Ruby on Bioc is a small project and focuses on sustainability rather than develo
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/ruby-on-bioc/biocgem.
 
+  Do you need commit rights to my repository?
+  Do you want to get admin rights and take over the project?
+  If so, please feel free to contact us.
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
