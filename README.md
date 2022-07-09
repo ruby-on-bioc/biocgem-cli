@@ -3,7 +3,8 @@
 [![Gem Version](https://badge.fury.io/rb/biocgem.svg)](https://badge.fury.io/rb/biocgem)
 [![test](https://github.com/ruby-on-bioc/biocgem/actions/workflows/ci.yml/badge.svg)](https://github.com/ruby-on-bioc/biocgem/actions/workflows/ci.yml)
 
-biocgem is a command line tool to extract the databases included in the [Bioconductor](https://bioconductor.org/) annotation [packages](https://bioconductor.org/packages/release/BiocViews.html#___AnnotationData) and use them with Ruby gems. Sqlite and 2bit formats are supported. 
+biocgem is a command line tool for generating ruby gems.
+biocgem extract the databases included in the [Bioconductor](https://bioconductor.org/) annotation [packages](https://bioconductor.org/packages/release/BiocViews.html#___AnnotationData). biocgem supports sqlite and 2bit formats. 
 
 ## Installation
 
