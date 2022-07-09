@@ -96,7 +96,8 @@ How to automatically generate multiple Ruby gems from a list of bioconductor pac
 
 ## Development
 
-Ruby on Bioc is a small project and focuses on sustainability rather than development.
+1. Ruby on Bioc is a small project and focuses on sustainability rather than development.
+2. Respect to the developers of R and Bioconductor. This project rides on the beautiful ecosystem of R, but that doesn't mean you should act like a free rider.
 
 ## Contributing
 
