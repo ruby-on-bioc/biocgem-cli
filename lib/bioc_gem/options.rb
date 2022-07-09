@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module BiocGem
   Options = Struct.new(
     :output_directory,
