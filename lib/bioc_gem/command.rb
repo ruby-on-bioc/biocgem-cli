@@ -27,7 +27,7 @@ module BiocGem
       config = parser.options
       require_name     = config.gem_require_name
       package_name     = config.bioc_package_name
-      output_directory = config.output_directory
+      output_directory = config.output_directory || Dir.pwd
 
       target = File.join(output_directory, package_name)
 
