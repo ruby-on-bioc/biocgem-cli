@@ -31,6 +31,11 @@ module BiocGem
 
       target = File.join(output_directory, package_name)
 
+      if File.exist?(target)
+        warn "already exists : #{package_name}"
+        exit 1
+      end
+
       base = File.expand_path("../../template/newgem", __dir__)
 
       Dir.mktmpdir do |tmpdir|
