@@ -1,6 +1,7 @@
 # <%= config[:bioc_package_name] %>
 
 [![build](https://github.com/ruby-on-bioc/<%= config[:bioc_package_name] %>/actions/workflows/ci.yml/badge.svg)](https://github.com/ruby-on-bioc/<%= config[:bioc_package_name] %>/actions/workflows/ci.yml)
+[![version](https://img.shields.io/badge/release%20version-<%= config[:bioc_package_version] %>-green.svg)](https://bioconductor.org/packages/<%= config[:bioc_package_name] %>/)
 
 <%= config[:gem_icon] %> [<%= config[:bioc_package_name] %>](https://bioconductor.org/packages/<%= config[:bioc_package_name] %>/) - for Ruby
 
