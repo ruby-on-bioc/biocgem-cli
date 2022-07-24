@@ -30,4 +30,4 @@ With all due respect to the R language and Bioconductor maintainers...
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/ruby-on-bioc/<%= config[:gem_constant_name] %>.
+Bug reports and pull requests are welcome on GitHub at https://github.com/ruby-on-bioc/<%= config[:bioc_package_name] %>.
