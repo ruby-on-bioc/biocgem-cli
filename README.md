@@ -1,4 +1,4 @@
-# BiocGem
+# biocgem command line tool
 
 [![Gem Version](https://badge.fury.io/rb/biocgem.svg)](https://badge.fury.io/rb/biocgem)
 [![test](https://github.com/ruby-on-bioc/biocgem/actions/workflows/ci.yml/badge.svg)](https://github.com/ruby-on-bioc/biocgem/actions/workflows/ci.yml)
